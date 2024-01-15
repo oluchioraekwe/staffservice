@@ -3,11 +3,11 @@ import {allUsers, createUser,deleteUser, findByEmail, getUser, updateUserControl
 import { authenticate } from '../utility/middleware';
 const router = Router();
 
-router.get('/', allUsers);
+router.get('/', authenticate,allUsers);
 router.get("/:id",getUser)
 router.post("/email",findByEmail)
 router.post("/",createUser)
-router.delete("/:id",deleteUser)
+router.delete("/:id",authenticate,deleteUser)
 router.patch("/:id",authenticate,updateUserController)
 
 
