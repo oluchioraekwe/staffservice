@@ -15,26 +15,34 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: display latest tag
+      # - name: display latest tag
+      #   if: ${{ !github.event.inputs.tag}}
+      #   run: echo "oluchioraekwe/staffservice:latest"
+      # - name: display tag with name
+      #   if: ${{ github.event.inputs.tag}}
+      #   run: echo "oluchioraekwe/staffservice:${{github.event.inputs.tag}}"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push latest
         if: ${{ !github.event.inputs.tag}}
-        run: echo "oluchioraekwe/staffservice:latest"
-      - name: display tag with name
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: oluchioraekwe/staffservice:latest
+
+      - name: Build and push tag
         if: ${{ github.event.inputs.tag}}
-        run: echo "oluchioraekwe/staffservice:${{github.event.inputs.tag}}"
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
-
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
-
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     push: true
-      #     tags: "oluchioraekwe/staffservice:${{github.event.inputs.tag}}"
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: oluchioraekwe/staffservice:${{ github.event.inputs.tag}}
