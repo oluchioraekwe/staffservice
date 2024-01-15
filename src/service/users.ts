@@ -1,4 +1,4 @@
-import Staff from "../models/user_model"
+import Staff from "../models/staff_model"
 import { IStaff } from "../utility/interface"
 
 
