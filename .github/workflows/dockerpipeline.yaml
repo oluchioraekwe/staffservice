@@ -2,6 +2,11 @@ name: Buid and Deploy Resources to Docker Hub
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        description: The image tag
+        default: latest
   push:
     branches:
       - main
@@ -26,4 +31,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: oluchioraekwe/staffservice:v.1.0
+          tags: oluchioraekwe/staffservice:${{github.event.inputs.tag}}
