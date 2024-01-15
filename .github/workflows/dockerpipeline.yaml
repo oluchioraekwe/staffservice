@@ -15,7 +15,11 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: display tag
+      - name: display latest tag
+        if: ${{ !github.event.inputs.tag}}
+        run: echo "oluchioraekwe/staffservice:latest"
+      - name: display tag with name
+        if: ${{ github.event.inputs.tag}}
         run: echo "oluchioraekwe/staffservice:${{github.event.inputs.tag}}"
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
